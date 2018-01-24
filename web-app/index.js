@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import UserForm from './components/userForm'
 import WeightTracker from './components/weightTracker'
+import Toaster from './components/toaster/toaster'
 import { Line } from 'react-chartjs-2';
 
 class App extends React.Component {
@@ -79,6 +80,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Toaster/>
         <WeightTracker 
         addToList={this.addToList}/>
         <ul>
