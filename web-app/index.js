@@ -19,7 +19,8 @@ class App extends React.Component {
         }
       ]
     },
-    showToast: false
+    showToast: false,
+    toastMessage: 'You are getting FAT'
   }
 
   addToList = (data) => {
@@ -43,15 +44,15 @@ class App extends React.Component {
     weightData['labels'].push(currentDateTime)
   }
 
-  displayMessage(currentWeight){
-    
-  }
-
   addDataToChart(weight) {
     let { weightData } = this.state
 
     const currentDateTime = new Date()
     weightData['labels'].push(currentDateTime)
+
+    const lastWeight = weightData.datasets[0].data.pop();
+    this.setToastMessage(weight, lastWeight);
+
     weightData.datasets[0].data.push(weight)
     this.showToast();
 
@@ -59,7 +60,18 @@ class App extends React.Component {
       weightData,
     })
   }
-
+  setToastMessage(currentWeight, lastWeightData){
+    let toastMessage;
+    if (currentWeight > lastWeightData) {
+      toastMessage = "You are getting FAT!!";
+    } else {
+      toastMessage = "ON your way to supermodel status!"
+    }
+    this.setState({
+      toastMessage
+    })
+  }
+  
   showToast() {
     this.setState({
         showToast: true
@@ -88,7 +100,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Toaster showToast={this.state.showToast}/>
+        <Toaster 
+          showToast={this.state.showToast}
+          message={this.state.toastMessage}/>
         <WeightTracker 
         addToList={this.addToList}/>
         <ul>

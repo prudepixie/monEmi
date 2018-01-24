@@ -19410,7 +19410,8 @@ var App = function (_React$Component) {
           label: 'Wendys Weight'
         }]
       },
-      showToast: false
+      showToast: false,
+      toastMessage: 'You are getting FAT'
     }, _this.addToList = function (data) {
       var counter = _this.state.counter + 1;
 
@@ -19432,9 +19433,6 @@ var App = function (_React$Component) {
       weightData['labels'].push(currentDateTime);
     }
   }, {
-    key: 'displayMessage',
-    value: function displayMessage(currentWeight) {}
-  }, {
     key: 'addDataToChart',
     value: function addDataToChart(weight) {
       var weightData = this.state.weightData;
@@ -19442,11 +19440,28 @@ var App = function (_React$Component) {
 
       var currentDateTime = new Date();
       weightData['labels'].push(currentDateTime);
+
+      var lastWeight = weightData.datasets[0].data.pop();
+      this.setToastMessage(weight, lastWeight);
+
       weightData.datasets[0].data.push(weight);
       this.showToast();
 
       this.setState({
         weightData: weightData
+      });
+    }
+  }, {
+    key: 'setToastMessage',
+    value: function setToastMessage(currentWeight, lastWeightData) {
+      var toastMessage = void 0;
+      if (currentWeight > lastWeightData) {
+        toastMessage = "You are getting FAT!!";
+      } else {
+        toastMessage = "ON your way to supermodel status!";
+      }
+      this.setState({
+        toastMessage: toastMessage
       });
     }
   }, {
@@ -19500,7 +19515,9 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_toaster2.default, { showToast: this.state.showToast }),
+        _react2.default.createElement(_toaster2.default, {
+          showToast: this.state.showToast,
+          message: this.state.toastMessage }),
         _react2.default.createElement(_weightTracker2.default, {
           addToList: this.addToList }),
         _react2.default.createElement(
@@ -37003,10 +37020,24 @@ var Toaster = function (_React$Component) {
     _createClass(Toaster, [{
         key: 'render',
         value: function render() {
+            console.log('props', this.props);
+            var _props = this.props,
+                message = _props.message,
+                showToast = _props.showToast;
+
+            var toast = null;
+            if (showToast) {
+                toast = _react2.default.createElement(
+                    'div',
+                    { className: 'container show' },
+                    message
+                );
+            }
+
             return _react2.default.createElement(
                 'div',
-                { className: 'container show' },
-                'I\'m a toast'
+                null,
+                toast
             );
         }
     }]);
