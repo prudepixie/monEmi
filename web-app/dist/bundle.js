@@ -19409,7 +19409,8 @@ var App = function (_React$Component) {
           backgroundColor: "#FF6384",
           label: 'Wendys Weight'
         }]
-      }
+      },
+      showToast: false
     }, _this.addToList = function (data) {
       var counter = _this.state.counter + 1;
 
@@ -19425,12 +19426,6 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      console.log('hi');
-      // this.generateTimeNow()
-    }
-  }, {
     key: 'generateTimeNow',
     value: function generateTimeNow(weightData) {
       var currentDateTime = new Date();
@@ -19448,10 +19443,25 @@ var App = function (_React$Component) {
       var currentDateTime = new Date();
       weightData['labels'].push(currentDateTime);
       weightData.datasets[0].data.push(weight);
+      this.showToast();
 
       this.setState({
         weightData: weightData
       });
+    }
+  }, {
+    key: 'showToast',
+    value: function showToast() {
+      var _this2 = this;
+
+      this.setState({
+        showToast: true
+      });
+      setTimeout(function () {
+        _this2.setState({
+          showToast: false
+        });
+      }, 3000);
     }
   }, {
     key: 'removeFromList',
@@ -19466,7 +19476,7 @@ var App = function (_React$Component) {
   }, {
     key: 'renderList',
     value: function renderList() {
-      var _this2 = this;
+      var _this3 = this;
 
       return this.state.list.map(function (_ref2) {
         var id = _ref2.id,
@@ -19478,7 +19488,7 @@ var App = function (_React$Component) {
           item,
           _react2.default.createElement(
             'span',
-            { onClick: _this2.removeFromList.bind(_this2, id) },
+            { onClick: _this3.removeFromList.bind(_this3, id) },
             ' x'
           )
         );
@@ -19490,7 +19500,7 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_toaster2.default, null),
+        _react2.default.createElement(_toaster2.default, { showToast: this.state.showToast }),
         _react2.default.createElement(_weightTracker2.default, {
           addToList: this.addToList }),
         _react2.default.createElement(
@@ -36995,7 +37005,7 @@ var Toaster = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: 'container' },
+                { className: 'container show' },
                 'I\'m a toast'
             );
         }
@@ -37046,7 +37056,7 @@ exports = module.exports = __webpack_require__(193)(false);
 
 
 // module
-exports.push([module.i, ".container {\n  background: pink; }\n", ""]);
+exports.push([module.i, ".container {\n  visibility: hidden;\n  min-width: 250px;\n  /* Set a default minimum width */\n  margin-left: -125px;\n  /* Divide value of min-width by 2 */\n  background-color: #333;\n  /* Black background color */\n  color: #fff;\n  /* White text color */\n  text-align: center;\n  /* Centered text */\n  border-radius: 2px;\n  /* Rounded borders */\n  padding: 16px;\n  /* Padding */\n  position: fixed;\n  /* Sit on top of the screen */\n  z-index: 1;\n  /* Add a z-index if needed */\n  left: 50%;\n  /* Center the snackbar */\n  bottom: 30px;\n  /* 30px from the bottom */ }\n\n.show {\n  visibility: visible;\n  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;\n  animation: fadein 0.5s, fadeout 0.5s 2.5s; }\n\n@-webkit-keyframes fadein {\n  from {\n    bottom: 0;\n    opacity: 0; }\n  to {\n    bottom: 30px;\n    opacity: 1; } }\n\n@keyframes fadein {\n  from {\n    bottom: 0;\n    opacity: 0; }\n  to {\n    bottom: 30px;\n    opacity: 1; } }\n\n@-webkit-keyframes fadeout {\n  from {\n    bottom: 30px;\n    opacity: 1; }\n  to {\n    bottom: 0;\n    opacity: 0; } }\n\n@keyframes fadeout {\n  from {\n    bottom: 30px;\n    opacity: 1; }\n  to {\n    bottom: 0;\n    opacity: 0; } }\n", ""]);
 
 // exports
 

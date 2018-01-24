@@ -18,12 +18,8 @@ class App extends React.Component {
           label: 'Wendys Weight'
         }
       ]
-    }
-  }
-
-  componentWillMount() {
-    console.log('hi')
-    // this.generateTimeNow()
+    },
+    showToast: false
   }
 
   addToList = (data) => {
@@ -57,11 +53,23 @@ class App extends React.Component {
     const currentDateTime = new Date()
     weightData['labels'].push(currentDateTime)
     weightData.datasets[0].data.push(weight)
+    this.showToast();
 
     this.setState({
-      weightData
+      weightData,
     })
   }
+
+  showToast() {
+    this.setState({
+        showToast: true
+    })
+    setTimeout(() => {
+        this.setState({
+            showToast: false
+        })
+    }, 3000)
+}
 
   removeFromList(id) {
     const list = [...this.state.list].filter(li => li.id !== id)
@@ -80,7 +88,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Toaster/>
+        <Toaster showToast={this.state.showToast}/>
         <WeightTracker 
         addToList={this.addToList}/>
         <ul>
